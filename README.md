@@ -2,6 +2,8 @@
 
 Hand Mouse Studio controls the Windows pointer using a webcam and one hand. Move with small finger or wrist motions, rest to click, and scroll with short two-finger strokes.
 
+![Original webcam hand-tracking preview showing hand landmarks](hand_points.png)
+
 ## Quick start
 
 You need Windows, a webcam, and Python 3.13. From PowerShell:
