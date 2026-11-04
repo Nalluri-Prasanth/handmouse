@@ -54,8 +54,3 @@ Hand loss, pauses, camera stalls, and shutdown release held buttons. Screen-corn
 Run the gesture tests with `.\.venv\Scripts\python.exe -m unittest test_engine -v`. Tests simulate gestures without moving your real pointer or opening the webcam.
 
 The Studio entry point is `app.py`. Gesture logic lives in `engine.py`, with tests in `test_engine.py`. The original prototype remains available in `main.py`.
-## GitHub sources
-
-See **THIRD_PARTY.md** for reviewed repositories, source revisions, and the Apache-licensed smoothing component reused in this application. Other gesture and UI code was written for this redesign.
-
-Webcam tracking still depends on lighting, angle, and visibility of your fingers. Automated checks cover control logic; comfortable timing and accuracy need a live trial with your hand.
