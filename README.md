@@ -33,7 +33,7 @@ The hand landmark model is included. The app starts paused. Press **F8** or sele
 | Pause / resume | F8, anywhere, or Start/Pause button |
 | Quit | F10, anywhere, or close the window |
 
-Keep your elbow supported. Use the **Practice target** button to check clicking before controlling other apps. In rest mode, holding still triggers a click: pause with F8 when you want to read or leave your hand in view. The click ring passes input through to the target underneath it.
+Keep your elbow supported. Use the **Practice target** to check left and right clicks separately before controlling other apps. In rest mode, holding still triggers a click: pause with F8 when you want to read or leave your hand in view. The click ring passes input through to the target underneath it.
 
 ## Optional pinch mode
 
@@ -41,7 +41,7 @@ Select **Pinch**. First separate thumb and index to arm it. Pinch briefly, then 
 
 ## Settings
 
-Pointer sensitivity, scroll sensitivity, rest time, pinch tolerance, and click method save automatically in `settings.json`. Changes reset gesture references to avoid cursor jumps. Settings are separate from the older application.
+Pointer sensitivity, scroll sensitivity, scroll direction, rest time, pinch tolerance, and click method save automatically in `settings.json`. Changes reset gesture references to avoid cursor jumps. Select **Reverse scroll direction** to flip the direction of two-finger strokes.
 
 Hand loss, pauses, camera stalls, and shutdown release held buttons. Screen-corner fail-safe remains enabled. Only one hand is tracked. Camera processing runs locally, in a worker thread; no video is uploaded.
 

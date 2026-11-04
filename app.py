@@ -90,6 +90,7 @@ class Studio:
         self.settings = Settings()
         try:
             saved = json.loads((ROOT/'settings.json').read_text())
+            self.settings.reverse_scroll = saved.get('reverse_scroll') is True
             for key,lo,hi in [('pointer',1,7),('scroll',.5,5),('dwell',.5,2),('pinch_close',.2,.6)]:
                 value = float(saved.get(key,getattr(self.settings,key)))
                 if lo<=value<=hi: setattr(self.settings,key,value)
@@ -105,6 +106,7 @@ class Studio:
         self.closed = False
         self.save_job = None
         self.practice_count = 0
+        self.practice_right_count = 0
         self.build()
         self.overlay = tk.Toplevel(self.root)
         self.overlay.overrideredirect(True)
@@ -152,7 +154,8 @@ class Studio:
         self.status = self.label(left,'Paused — press Start',12,ACCENT,wraplength=630)
         self.progress = ttk.Progressbar(left,maximum=1)
         self.progress.pack(fill='x',pady=5)
-        self.practice = self.button(left,'Practice target — clicks: 0',self.practice_click)
+        self.practice = self.button(left,'Practice target — left: 0  |  right: 0',self.practice_click)
+        self.practice.bind('<ButtonRelease-3>', self.practice_right_click)
         right = tk.Frame(body,bg=PANEL,padx=14,pady=8,width=280)
         right.pack(side='right',fill='y')
         self.start = self.button(right,'Start control  ·  F8',self.toggle)
@@ -162,6 +165,9 @@ class Studio:
             tk.Radiobutton(right,text=mode,variable=self.mode,value=mode,command=self.change_mode,bg=PANEL,fg=TEXT,selectcolor=BG,activebackground=PANEL,activeforeground=TEXT,font=('Segoe UI',11)).pack(anchor='w')
         self.slider(right,'Pointer sensitivity','pointer',1,7,.1)
         self.slider(right,'Scroll sensitivity','scroll',.5,5,.1)
+        self.reverse_scroll = tk.BooleanVar(value=self.settings.reverse_scroll)
+        ttk.Checkbutton(right, text='Reverse scroll direction', variable=self.reverse_scroll,
+                        command=lambda: self.setting('reverse_scroll', self.reverse_scroll.get())).pack(anchor='w')
         self.slider(right,'Rest time (seconds)','dwell',.5,2,.05)
         self.slider(right,'Pinch tolerance','pinch_close',.2,.6,.01)
         self.button(right,'Next rest: double click',lambda:self.action('double'))
@@ -195,7 +201,14 @@ class Studio:
 
     def practice_click(self):
         self.practice_count += 1
-        self.practice.configure(text=f'Practice target — clicks: {self.practice_count}')
+        self.refresh_practice_label()
+
+    def practice_right_click(self, event):
+        self.practice_right_count += 1
+        self.refresh_practice_label()
+
+    def refresh_practice_label(self):
+        self.practice.configure(text=f'Practice target — left: {self.practice_count}  |  right: {self.practice_right_count}')
 
     def schedule_save(self):
         if self.save_job: self.root.after_cancel(self.save_job)

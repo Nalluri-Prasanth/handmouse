@@ -11,6 +11,7 @@ class Settings:
     dwell: float = .9
     click_mode: str = 'Rest to click'
     pinch_close: float = .38
+    reverse_scroll: bool = False
 
 
 @dataclass
@@ -230,7 +231,7 @@ class Engine:
         self.scroll_residual += motion*self.settings.scroll*1500
         wheel = max(-240,min(240,int(self.scroll_residual)))
         if wheel:
-            self.sink.wheel(wheel)
+            self.sink.wheel(-wheel if self.settings.reverse_scroll else wheel)
             self.scroll_residual -= int(self.scroll_residual)
 
     def pinch(self, hand, now):
